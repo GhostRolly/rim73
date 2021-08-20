@@ -1,0 +1,75 @@
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\Rim73.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\Rim73.pdb
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\0Harmony.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\Assembly-CSharp.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\NAudio.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\NVorbis.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.CoreModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.AudioModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.IMGUIModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\Assembly-CSharp-firstpass.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.AssetBundleModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.TextRenderingModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.PhysicsModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\Unity.TextMeshPro.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\ISharpZipLib.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.InputLegacyModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.PerformanceReportingModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.ImageConversionModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.ScreenCaptureModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.UI.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.DSPGraphModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.AndroidJNIModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.AccessibilityModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.UIModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.UnityConnectModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.AIModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.UnityAnalyticsModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.Physics2DModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.AnimationModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.SharedInternalsModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.ClothModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.ClusterInputModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.ClusterRendererModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.CrashReportingModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.TilemapModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.TerrainModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.VFXModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.VideoModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.VRModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.GridModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.SubsystemsModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.JSONSerializeModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.LocalizationModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.UnityWebRequestModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.UNETModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.UnityWebRequestAssetBundleModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.UnityWebRequestAudioModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.UnityWebRequestTextureModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.UnityWebRequestWWWModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.ParticleSystemModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.DirectorModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.GameCenterModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.SpriteMaskModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.StreamingModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.TerrainPhysicsModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.TextCoreModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.SpriteShapeModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.UIElementsModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.VehiclesModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.WindModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.ARModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.XRModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\UnityEngine.InputModule.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\0Harmony.pdb
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\bin\Debug\0Harmony.xml
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\obj\Debug\Rim73.csprojResolveAssemblyReference.cache
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\obj\Debug\Rim73.dll
+c:\users\ngtx970\documents\visual studio 2015\Projects\Rim73\Rim73\obj\Debug\Rim73.pdb
+C:\Users\ahamideche\source\repos\rim73\rim73\Rim73\bin\Debug\Rim73.dll
+C:\Users\ahamideche\source\repos\rim73\rim73\Rim73\bin\Debug\Rim73.pdb
+C:\Users\ahamideche\source\repos\rim73\rim73\Rim73\obj\Debug\Rim73.csproj.CoreCompileInputs.cache
+C:\Users\ahamideche\source\repos\rim73\rim73\Rim73\obj\Debug\Rim73.csproj.CopyComplete
+C:\Users\ahamideche\source\repos\rim73\rim73\Rim73\obj\Debug\Rim73.dll
+C:\Users\ahamideche\source\repos\rim73\rim73\Rim73\obj\Debug\Rim73.pdb

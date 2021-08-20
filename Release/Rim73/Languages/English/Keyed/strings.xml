@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<!-- settings -->
+	<rim73_settings>Optimisations settings</rim73_settings>
+	
+	<rim73_hediff>Enable hediff optimisations</rim73_hediff>
+	<rim73_mood>Enable mood optimisations</rim73_mood>
+	<rim73_needs>Enable needs optimisations</rim73_needs>
+	<rim73_pather>Enable pather optimisations</rim73_pather>
+	<rim73_jobs>Enable jobs optimisations</rim73_jobs>
+	
+	<rim73_hediff_note>This optimises the hediffs and health ticks by reducing time it takes and improving memory caching.</rim73_hediff_note>
+	<rim73_mood_note>Enables mood optimisations, this reduces unecessary checks.</rim73_mood_note>
+	<rim73_needs_note>Enable needs optimisations by reducing the amount of checks in a second.</rim73_needs_note>
+	<rim73_pather_note>Enable pather optimisations by preventing pawns to tick if there's someone blocking their path, they will go into "pathing sleep" unless they get attacked.</rim73_pather_note>
+	<rim73_jobs_note>Enable jobs optimisations by reducing checks to nil for enemies and reducing them for pawns.</rim73_jobs_note>
+	
+</LanguageData>
