@@ -152,7 +152,9 @@ namespace Rim73
                     // Divided by 60 because 60,000 ticks per day and we tick every 1000 ticks
                     // x0.66f because for every 60,000 ticks, in 20 out of 60 cycles (1000 ticks), we do a return true
                     // So we have to compensate for that.
-                    float severityDiff = (((hediff.Severity - preTickSeverity) * 300f) * (1f / 60f)) * 0.66f;
+                    // 0.7f because we also tick it every 300 ticks outside of the 1000 ticks cycles
+                    // 0.7f = (60000 / 300)[200] - (60000 / 1000)[60] (because we tick 60 times a day) / (60000 / 300)[200]
+                    float severityDiff = (((hediff.Severity - preTickSeverity) * 300f) * (1f / 60f)) * (1f - (20f/60f)) * 0.7f;
                     hediff.Severity += severityDiff;
 
                 }
@@ -360,7 +362,7 @@ namespace Rim73
                 List<ImmunityRecord> immunities = (List<ImmunityRecord>)ImmunityHandler_immunityList.GetValue(immunityHandler);
                 for (int i = 0; i < immunities.Count; i++)
                 {
-                    immunities[i].immunity += immunities[i].ImmunityChangePerTick(pawn, true, immunizable) * (timeDilatation - 60);
+                    immunities[i].immunity += immunities[i].ImmunityChangePerTick(pawn, true, immunizable) * (timeDilatation-1);
                     immunities[i].immunity = Mathf.Clamp01(immunities[i].immunity);
                 }
             }
