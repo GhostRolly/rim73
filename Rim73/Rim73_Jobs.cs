@@ -18,6 +18,25 @@ namespace Rim73
         public static FieldInfo JobDriver_toils;
         public static int LastDisplayed;
 
+        // Jobs Hashes Constants
+        public const UInt64 Job_LayDown = 2679984368201912323;
+        public const UInt64 Job_Wait = 18143094375343664642;
+        public const UInt64 Job_GotoWander = 16182971203879871751;
+        public const UInt64 Job_Wait_MaintainPosture = 4320060248911881604;
+        public const UInt64 Job_Goto = 8464247152507782788;
+        public const UInt64 Job_OperateDeepDrill = 2313291229225313468;
+        public const UInt64 Job_FinishFrame = 17517766472696382783;
+        public const UInt64 Job_CutPlant = 8610537457995510270;
+        public const UInt64 Job_Sow = 10703666316432435534;
+        public const UInt64 Job_Harvest = 15131047947832039728;
+        public const UInt64 Job_HarvestDesignated = 11919274952779648864;
+        public const UInt64 Job_CutPlantDesignated = 10478525221413762286;
+        public const UInt64 Job_Wait_Wander = 12736036780793427890;
+        public const UInt64 Job_OperateScanner = 10631271010765328013;
+        public const UInt64 Job_Repair = 399292940117311738;
+        public const UInt64 Job_FixBrokenDownBuilding = 6045145228811936377;
+        public const UInt64 Job_BuildRoof = 5529176735013278407;
+
         // Used for fast-access on private members (thanks Tynan)
         public static void InitFieldInfos()
         {
@@ -135,8 +154,8 @@ namespace Rim73
 
                         if (hash % 240 == 0 && (
                             __instance.curJob == null ||
-                            jobHashCode == 12736036780793427890 ||
-                            jobHashCode == 18143094375343664642
+                            jobHashCode == Job_Wait_Wander ||
+                            jobHashCode == Job_Wait
                             )
                         )
                         {
@@ -172,22 +191,6 @@ namespace Rim73
                     // Only downside is : 
                     // Code is unreadable for a human
                     // There's a slight and tiny chance of collision (non unique hashcode)
-                    /*
-                        LayDown > 2679984368201912323
-                        Wait > 18143094375343664642
-                        GotoWander > 16182971203879871751
-                        Wait_MaintainPosture > 4320060248911881604
-                        Goto > 8464247152507782788
-                        OperateDeepDrill > 2313291229225313468
-                        FinishFrame > 17517766472696382783
-                        CutPlant > 8610537457995510270
-                        Sow > 10703666316432435534
-                        Harvest > 15131047947832039728
-                        HarvestDesignated > 11919274952779648864
-                        CutPlantDesignated > 10478525221413762286
-                        Wait_Wander > 12736036780793427890
-                        OperateScanner > 10631271010765328013
-                    */
 
                     JobDriver curDriver = __instance.curDriver;
                     if (curDriver != null)
@@ -196,7 +199,7 @@ namespace Rim73
                         string jobTypeName = curJob.def.defName;
                         UInt64 jobHashCode = CalculateHash(jobTypeName);
                         
-                        if (jobHashCode == 2679984368201912323)
+                        if (jobHashCode == Job_LayDown)
                         {
                             // LayDown
                             if (hash % 150 == 0 || hash % 211 == 0)
@@ -208,7 +211,7 @@ namespace Rim73
                             }
 
                             return false;
-                        }else if (jobHashCode == 18143094375343664642 || jobHashCode == 4320060248911881604)
+                        }else if (jobHashCode == Job_Wait || jobHashCode == Job_Wait_MaintainPosture)
                         {
                             // Wait and Wait_MaintainPosture
                             if (hash % 120 == 0)
@@ -218,14 +221,12 @@ namespace Rim73
                             }
 
                             return false;
-                        }else if (jobHashCode == 8464247152507782788 || jobHashCode == 16182971203879871751)
+                        }else if (jobHashCode == Job_Goto || jobHashCode == Job_GotoWander)
                         {
                             // Goto and GotoWander
                             return false;
-                        }else if(jobHashCode == 2313291229225313468 || jobHashCode == 10631271010765328013)
+                        }else if(jobHashCode == Job_OperateDeepDrill || jobHashCode == Job_OperateScanner)
                         {
-                            // OperateDeepDrill > 2313291229225313468
-                            // OperateScanner > 10631271010765328013
                             // Deep drilling toils don't have any kind of checks to see if Pawn should do something else...
                             curDriver.DriverTick();
 
@@ -238,36 +239,22 @@ namespace Rim73
                                 return true;
                             }
                         }else if (
-                            jobHashCode == 17517766472696382783 ||
-                            jobHashCode == 8610537457995510270 ||
-                            jobHashCode == 10703666316432435534 ||
-                            jobHashCode == 15131047947832039728 ||
-                            jobHashCode == 11919274952779648864 ||
-                            jobHashCode == 10478525221413762286 ||
-                            jobHashCode == 399292940117311738 ||
-                            jobHashCode == 6045145228811936377 ||
-                            jobHashCode == 5529176735013278407
+                            jobHashCode == Job_FinishFrame ||
+                            jobHashCode == Job_CutPlant ||
+                            jobHashCode == Job_Sow ||
+                            jobHashCode == Job_Harvest ||
+                            jobHashCode == Job_HarvestDesignated ||
+                            jobHashCode == Job_CutPlantDesignated ||
+                            jobHashCode == Job_Repair ||
+                            jobHashCode == Job_FixBrokenDownBuilding ||
+                            jobHashCode == Job_BuildRoof
                             )
                          {
-                            /*
-                            FinishFrame > 17517766472696382783
-                            CutPlant > 8610537457995510270
-                            Sow > 10703666316432435534
-                            Harvest > 15131047947832039728
-                            HarvestDesignated > 11919274952779648864
-                            CutPlantDesignated > 10478525221413762286
-                            Repair > 399292940117311738
-                            FixBrokenDownBuilding > 6045145228811936377
-                            BuildRoof > 5529176735013278407
-                            */
-
                             // Pawn has finished his building, let's see what else he can do!
                             curDriver.DriverTick();
                             if (curDriver.ended)
                             {
-                                //if(jobHashCode == 4320060248911881604 || jobHashCode == 18143094375343664642)
-                                    CleanupCurrentJob(ref ___pawn, ref __instance);
-
+                                CleanupCurrentJob(ref ___pawn, ref __instance);
                                 Rim73.JobTracker_TryFindAndStartJob_FastInvoke(__instance, null);
                                 return false;
                             }

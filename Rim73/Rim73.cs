@@ -27,6 +27,7 @@ namespace Rim73
     {
 
         public static Rim73_Settings Settings;
+        public static string Version = "1.1a";
         
         // Immunity
         public static MethodInfo ImmunityHandler;
@@ -75,13 +76,13 @@ namespace Rim73
             HediffComp_HealPermanentWounds_CompPostTick = typeof(Verse.HediffComp_HealPermanentWounds).GetMethod("CompPostTick");
             HediffComp_HealPermanentWounds_CompPostTick_FastInvoke = MethodInvoker.GetHandler(HediffComp_HealPermanentWounds_CompPostTick);
 
-            Verse.Log.Message("Rim73 v1.0c Initialized");
+            Verse.Log.Message("Rim73 "+ Version + " Initialized");
             base.GetSettings<Rim73_Settings>();
         }
         
         public override string SettingsCategory()
         {
-            return "Rim73";
+            return "Rim73 - "+ Version;
         }
 
         public override void DoSettingsWindowContents(Rect inRect)
