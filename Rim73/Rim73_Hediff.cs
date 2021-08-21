@@ -358,7 +358,7 @@ namespace Rim73
                 List<ImmunityRecord> immunities = (List<ImmunityRecord>)ImmunityHandler_immunityList.GetValue(immunityHandler);
                 for (int i = 0; i < immunities.Count; i++)
                 {
-                    immunities[i].immunity += (immunities[i].ImmunityChangePerTick(pawn, true, immunizable) * timeDilatation);
+                    immunities[i].immunity += immunities[i].ImmunityChangePerTick(pawn, true, immunizable) * (timeDilatation-1);
                     immunities[i].immunity = Mathf.Clamp01(immunities[i].immunity);
                 }
             }
