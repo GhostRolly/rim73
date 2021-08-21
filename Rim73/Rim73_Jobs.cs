@@ -36,6 +36,11 @@ namespace Rim73
         public const UInt64 Job_Repair = 399292940117311738;
         public const UInt64 Job_FixBrokenDownBuilding = 6045145228811936377;
         public const UInt64 Job_BuildRoof = 5529176735013278407;
+        public const UInt64 Job_Clean = 202508053238439936;
+        public const UInt64 Job_SpectateCeremony = 16606846453230181852;
+        public const UInt64 Job_StandAndBeSociallyActive = 5369201414247730307;
+        public const UInt64 Job_GiveSpeech = 3019778364028968580;
+        public const UInt64 Job_MarryAdjacentPawn = 6719037904742927402;
 
         // Used for fast-access on private members (thanks Tynan)
         public static void InitFieldInfos()
@@ -294,28 +299,27 @@ namespace Rim73
                         __result = false;
                         return false;
                     }
+
+                    // If enemy then skip
+                    if (__instance.pawn.mindState.anyCloseHostilesRecently)
+                        return true;
                         
                     int ticks = Find.TickManager.TicksGame;
                     int thingId = __instance.pawn.thingIDNumber;
                     string jobTypeName = job.def.defName;
                     UInt64 jobHashCode = CalculateHash(jobTypeName);
 
-                    /*
-                     Pre-compiled Hashcodes, prevents fetching from memory (like for strings)
-                     Clean > 202508053238439936
-                     CutPlant > 8610537457995510270
-                     Harvest > 15131047947832039728
-                     HarvestDesignated > 11919274952779648864
-                     CutPlantDesignated > 10478525221413762286
-                    */
-
                     // We're gonna take every single bit of optimisations we can here
                     if ((ticks + thingId) % 20 == 0 ||
-                        jobHashCode == 202508053238439936 ||
-                        jobHashCode == 8610537457995510270 ||
-                        jobHashCode == 15131047947832039728 ||
-                        jobHashCode == 11919274952779648864 ||
-                        jobHashCode == 10478525221413762286
+                        jobHashCode == Job_Clean ||
+                        jobHashCode == Job_CutPlant ||
+                        jobHashCode == Job_Harvest ||
+                        jobHashCode == Job_HarvestDesignated ||
+                        jobHashCode == Job_SpectateCeremony ||
+                        jobHashCode == Job_StandAndBeSociallyActive ||
+                        jobHashCode == Job_GiveSpeech ||
+                        jobHashCode == Job_MarryAdjacentPawn ||
+                        jobHashCode == Job_CutPlantDesignated
                     )
                     {
                         return true;
