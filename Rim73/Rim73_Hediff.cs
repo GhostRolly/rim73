@@ -158,7 +158,7 @@ namespace Rim73
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Tick_60(ref List<Hediff> hediffs, bool doHediffGivers, ref Pawn pawn)
+        public static void Tick_60(ref List<Hediff> hediffs)
         {
 
             // HediffCompProperties_CauseMentalState
@@ -175,29 +175,6 @@ namespace Rim73
                     // Simple tick, nothing more
                     hediff.Tick();
                     hediff.PostTick();
-                }
-            }
-
-            // HediffGivers
-            // This is for Hypothermia, Bleeding and Heatstroke
-            // They tick 5 times slower now...
-            if(doHediffGivers)
-            {
-                List<HediffGiverSetDef> hediffGiverSets = pawn.RaceProps.hediffGiverSets;
-                if (hediffGiverSets != null)
-                {
-                    int sizeGiversSet = hediffGiverSets.Count;
-                    for (int i = 0; i < sizeGiversSet; i++)
-                    {
-                        List<HediffGiver> hediffGivers = hediffGiverSets[i].hediffGivers;
-                        int sizeHediffGivers = hediffGivers.Count;
-                        for (int j = 0; j < sizeHediffGivers; j++)
-                        {
-                            hediffGivers[j].OnIntervalPassed(pawn, (Hediff)null);
-                            if (pawn.Dead)
-                                return;
-                        }
-                    }
                 }
             }
         }
@@ -235,10 +212,45 @@ namespace Rim73
             // HediffCompProperties_KillAfterDays
             // HediffCompProperties_SelfHeal
 
+            // Used to get the first Infection available
+            Hediff immunizable = null;
+
             for (int index = 0; index < hediffs.Count; index++)
             {
                 Hediff hediff = hediffs[index];
                 int hediffFlag = 0;
+
+                // HediffGivers
+                // HediffGivers
+                // This is for Hypothermia, Bleeding and Heatstroke
+                // They tick 5 times slower now...
+                //Log.Warning("=============");
+                //Log.Warning(pawn.ToString());
+                List<HediffGiverSetDef> hediffGiverSets = pawn.RaceProps.hediffGiverSets;
+                if (hediffGiverSets != null)
+                {
+                    int sizeGiversSet = hediffGiverSets.Count;
+                    for (int i = 0; i < sizeGiversSet; i++)
+                    {
+                        List<HediffGiver> hediffGivers = hediffGiverSets[i].hediffGivers;
+                        int sizeHediffGivers = hediffGivers.Count;
+                        for (int j = 0; j < sizeHediffGivers; j++)
+                        {
+                            if(hediffGivers[j].hediff.defName == hediff.def.defName)
+                            {
+                                float preSev = hediff.Severity;
+                                hediffGivers[j].OnIntervalPassed(pawn, (Hediff)null);
+                                
+                                if (pawn.Dead)
+                                    return;
+
+                                float sevDiff = hediff.Severity - preSev;
+                                hediff.Severity += sevDiff * 3;
+                                //Log.Warning("> " + hediffGivers[j].hediff.defName + " -- from "+ preSev + " to " + hediff.Severity + " (diff: " + sevDiff +")");
+                            }
+                        }
+                    }
+                }
 
                 if (!Hediff_BitMask.TryGetValue(hediff.def.defName, out hediffFlag))
                     continue;
@@ -247,15 +259,7 @@ namespace Rim73
                 // TODO :: Make faster
                 if (IsHediffType(ref hediffFlag, HediffCompProps.HediffCompProperties_Immunizable))
                 {
-                    List<ImmunityRecord> immunities = (List<ImmunityRecord>)ImmunityHandler_immunityList.GetValue(immunityHandler);
-                    for (int i = 0; i < immunities.Count; i++)
-                    {
-                        if(immunities[i].hediffDef == hediff.def)
-                        {
-                            immunities[i].immunity += (immunities[i].ImmunityChangePerTick(pawn, true, hediff) * timeDilatation);
-                            immunities[i].immunity = Mathf.Clamp01(immunities[i].immunity);
-                        }
-                    }
+                    immunizable = hediff;
                 }
 
                 // OH BOY, LETS GO
@@ -342,6 +346,22 @@ namespace Rim73
                     }
                 }
             }
+
+            // Infections & Diseases
+            // Vanilla uses GetFirstHediffOfDef which basically just returns the first infection the pawn has
+            // So we'll do the same, but faster
+            // We use the same instance of infection and/or immunizable 
+            // The only thing the instance is used for is to add a random amount of disease severity depending on loadID
+            // Frankly for the performance loss, we might aswell not care...
+            if (immunizable != null)
+            {
+                List<ImmunityRecord> immunities = (List<ImmunityRecord>)ImmunityHandler_immunityList.GetValue(immunityHandler);
+                for (int i = 0; i < immunities.Count; i++)
+                {
+                    immunities[i].immunity += (immunities[i].ImmunityChangePerTick(pawn, true, immunizable) * timeDilatation);
+                    immunities[i].immunity = Mathf.Clamp01(immunities[i].immunity);
+                }
+            }
         }
 
 
@@ -366,7 +386,7 @@ namespace Rim73
 
                 // 60 Ticks
                 if (hash % 60 == 0)
-                    Tick_60(ref __instance.hediffSet.hediffs, (hash % 300 != 0), ref ___pawn);
+                    Tick_60(ref __instance.hediffSet.hediffs);
 
                 // Special 103 ticks
                 if (hash % 103 == 0)

@@ -124,7 +124,7 @@ namespace Rim73
                         return true;
 
                     // ThinkTree jobs
-                    if (hash % 120 == 0)
+                    if (hash % 90 == 0)
                     {
                         // Skip
                         if (___pawn.RaceProps.Animal && !___pawn.mindState.anyCloseHostilesRecently && !(hash % 180 == 0))
@@ -230,7 +230,8 @@ namespace Rim73
                             curDriver.DriverTick();
 
                             // This job doesn't contain checks for its tickAction toil, so let's do it ourselves...
-                            if ((hash % 211 == 0) && (___pawn.needs.rest.CurLevel <= 0.33 || ___pawn.needs.food.CurLevel <= 0.33))
+                            // Fix for Half cyclydian cycler
+                            if ((hash % 211 == 0) && (___pawn.needs.rest != null && ___pawn.needs.rest.CurLevel <= 0.33 || ___pawn.needs.food.CurLevel <= 0.33))
                             {
                                 CleanupCurrentJob(ref ___pawn, ref __instance);
                                 __instance.StartJob(JobMaker.MakeJob(JobDefOf.GotoWander, RandomWanderPos(ref ___pawn)), cancelBusyStances: false);
