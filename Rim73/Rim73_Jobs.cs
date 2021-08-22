@@ -19,6 +19,7 @@ namespace Rim73
         public static int LastDisplayed;
 
         // Jobs Hashes Constants
+        public const UInt64 Job_None = 0;
         public const UInt64 Job_LayDown = 2679984368201912323;
         public const UInt64 Job_Wait = 18143094375343664642;
         public const UInt64 Job_GotoWander = 16182971203879871751;
@@ -41,6 +42,7 @@ namespace Rim73
         public const UInt64 Job_StandAndBeSociallyActive = 5369201414247730307;
         public const UInt64 Job_GiveSpeech = 3019778364028968580;
         public const UInt64 Job_MarryAdjacentPawn = 6719037904742927402;
+        public const UInt64 Job_AttackMelee = 5645113172716386877;
 
         // Used for fast-access on private members (thanks Tynan)
         public static void InitFieldInfos()
@@ -89,10 +91,6 @@ namespace Rim73
                 }
             }
 
-
-            // Jobs that restart the Pawn
-            public static readonly string[] jobsIgnore = { "Wait_Wander", "Wait", "GotoWander" };
-
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void CleanupCurrentJob(ref Pawn pawn, ref Pawn_JobTracker instance)
             {
@@ -134,8 +132,11 @@ namespace Rim73
                     if (___pawn.Dead || ___pawn.Downed)
                         return false;
 
+                    // Hash
+                    UInt64 jobHashCode = __instance.curJob != null ? CalculateHash(__instance.curJob.def.defName) : 0;
+
                     // Rope for animals (only for players)
-                    if (___pawn.RaceProps.Animal && (__instance.curJob == null || __instance.curJob.def.defName == "Wait"))
+                    if ((jobHashCode == Job_None || jobHashCode == Job_Wait) && ___pawn.RaceProps.Animal)
                         return true;
 
                     // Manual checks, this prevents from getting TicksGame from memory again and again
@@ -151,16 +152,13 @@ namespace Rim73
                     if (hash % 90 == 0)
                     {
                         // Skip
-                        if (___pawn.RaceProps.Animal && !___pawn.mindState.anyCloseHostilesRecently && !(hash % 180 == 0))
+                        if (!___pawn.mindState.anyCloseHostilesRecently && !(hash % 180 == 0) && ___pawn.RaceProps.Animal)
                             return false;
 
-                        /* "Wait_Wander", "Wait" */
-                        UInt64 jobHashCode = __instance.curJob != null ? CalculateHash(__instance.curJob.def.defName) : 0;
-
-                        if (hash % 240 == 0 && (
-                            __instance.curJob == null ||
-                            jobHashCode == Job_Wait_Wander ||
-                            jobHashCode == Job_Wait
+                        if (hash % 270 == 0 && (
+                                jobHashCode == Job_None ||
+                                jobHashCode == Job_Wait_Wander ||
+                                jobHashCode == Job_Wait
                             )
                         )
                         {
@@ -199,11 +197,7 @@ namespace Rim73
 
                     JobDriver curDriver = __instance.curDriver;
                     if (curDriver != null)
-                    {
-                        Job curJob = curDriver.job;
-                        string jobTypeName = curJob.def.defName;
-                        UInt64 jobHashCode = CalculateHash(jobTypeName);
-                        
+                    {   
                         if (jobHashCode == Job_LayDown)
                         {
                             // LayDown
@@ -212,7 +206,7 @@ namespace Rim73
                                 // Compensating for comfort
                                 curDriver.DriverTick();
                                 if(___pawn.needs.comfort != null)
-                                    ___pawn.needs.comfort.lastComfortUseTick = hash + 150;
+                                    ___pawn.needs.comfort.lastComfortUseTick = hash + 151;
                             }
 
                             return false;
@@ -257,11 +251,21 @@ namespace Rim73
                          {
                             // Pawn has finished his building, let's see what else he can do!
                             curDriver.DriverTick();
-                            if (curDriver.ended)
+                            if (curDriver.ended && !__instance.curJob.playerForced)
                             {
                                 CleanupCurrentJob(ref ___pawn, ref __instance);
                                 Rim73.JobTracker_TryFindAndStartJob_FastInvoke(__instance, null);
                                 return false;
+                            }
+                        } else if(jobHashCode == Job_AttackMelee)
+                        {
+                            // Special case for Pawns & Animals
+                            // Sometimes the maxNumMelee isn't provided for Pawns & Maddened animals
+                            // Which means we get int.MaxValue as maxMelee
+                            if (curDriver.job.attackDoorIfTargetLost && curDriver.job.maxNumMeleeAttacks == 0x7FFFFFFF)
+                            {
+                                CleanupCurrentJob(ref ___pawn, ref __instance);
+                                return true;
                             }
                         }
                         else
