@@ -267,6 +267,8 @@ namespace Rim73
                                 CleanupCurrentJob(ref ___pawn, ref __instance);
                                 return true;
                             }
+
+                            curDriver.DriverTick();
                         }
                         else
                         {
