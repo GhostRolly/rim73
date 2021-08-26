@@ -40,7 +40,10 @@ namespace Rim73
         {
             static bool Prefix(ref Pawn pawn, ref int regionsToScan, ref bool passDoors, ref bool __result)
             {
-                __result = false;
+                if (Rim73.Ticks + pawn.thingIDNumber % 500 == 0)
+                    return true;
+
+                __result = pawn.mindState.anyCloseHostilesRecently;
                 return false;
             }
         }

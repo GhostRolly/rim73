@@ -12,7 +12,7 @@ namespace Rim73
     class Rim73_Pather
     {
         // Region Caching
-        public static Dictionary<int, int?> RegionCache = new Dictionary<int, int?>(4096);
+        public static Dictionary<int, int?> RegionCache = new Dictionary<int, int?>(2048);
 
         // Inlined
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -139,7 +139,7 @@ namespace Rim73
 
                 bool sameRegion = false;
 
-                if ((Rim73.Ticks & (32768 - 1)) == 0)
+                if ((Rim73.Ticks & (65535 - 1)) == 0)
                 {
                     RegionCache.Clear();
                     return true;
