@@ -379,7 +379,8 @@ namespace Rim73
                     return true;
 
                 int thingId = ___pawn.thingIDNumber;
-                int ticks = Find.TickManager.TicksGame;
+                //int ticks = Find.TickManager.TicksGame;
+                int ticks = Rim73.Ticks;
                 int hash = ticks + thingId;
 
                 // This takes advantage of memory location and CPU cache by ticking the same data multiple times

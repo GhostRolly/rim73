@@ -141,7 +141,8 @@ namespace Rim73
 
                     // Manual checks, this prevents from getting TicksGame from memory again and again
                     int thingId = ___pawn.thingIDNumber;
-                    int ticks = Find.TickManager.TicksGame;
+                    //int ticks = Find.TickManager.TicksGame;
+                    int ticks = Rim73.Ticks;
                     int hash = thingId + ticks;
 
                     // If attacking, we tick faster
@@ -206,7 +207,7 @@ namespace Rim73
                                 // Compensating for comfort
                                 curDriver.DriverTick();
                                 if(___pawn.needs.comfort != null)
-                                    ___pawn.needs.comfort.lastComfortUseTick = hash + 151;
+                                    ___pawn.needs.comfort.lastComfortUseTick = hash + 150;
                             }
 
                             return false;
@@ -309,8 +310,9 @@ namespace Rim73
                     // If enemy then skip
                     if (__instance.pawn.mindState.anyCloseHostilesRecently)
                         return true;
-                        
-                    int ticks = Find.TickManager.TicksGame;
+
+                    //int ticks = Find.TickManager.TicksGame;
+                    int ticks = Rim73.Ticks;
                     int thingId = __instance.pawn.thingIDNumber;
                     string jobTypeName = job.def.defName;
                     UInt64 jobHashCode = CalculateHash(jobTypeName);

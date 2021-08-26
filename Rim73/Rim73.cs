@@ -27,7 +27,7 @@ namespace Rim73
     {
 
         public static Rim73_Settings Settings;
-        public static string Version = "1.1b";
+        public static string Version = "1.1c";
         
         // Immunity
         public static MethodInfo ImmunityHandler;
@@ -48,6 +48,9 @@ namespace Rim73
         // Hediff comp
         public static MethodInfo HediffComp_HealPermanentWounds_CompPostTick;
         public static FastInvokeHandler HediffComp_HealPermanentWounds_CompPostTick_FastInvoke;
+
+        // Ticker
+        public static int Ticks = 0;
         
 
         public Rim73(ModContentPack content) : base(content)

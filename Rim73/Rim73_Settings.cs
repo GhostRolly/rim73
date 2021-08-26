@@ -11,6 +11,7 @@ namespace Rim73
         public static bool needs = true;
         public static bool pather = true;
         public static bool mindstate = true;
+        public static bool regionCache = true;
 
         private static Vector2 ScrollPos = Vector2.zero;
        
@@ -32,6 +33,7 @@ namespace Rim73
             listing_Standard.CheckboxLabeled("rim73_pather".Translate(), ref pather, "rim73_pather_note".Translate());
             listing_Standard.CheckboxLabeled("rim73_jobs".Translate(), ref jobs, "rim73_jobs_note".Translate());
             listing_Standard.CheckboxLabeled("rim73_mindstate".Translate(), ref mindstate, "rim73_mindstate_note".Translate());
+            //listing_Standard.CheckboxLabeled("rim73_regionCache".Translate(), ref regionCache, "rim73_regionCache_note".Translate());
 
             /*
             listing_Standard.GapLine();
@@ -52,6 +54,7 @@ namespace Rim73
             Scribe_Values.Look(ref needs, "rim73_needs", true, false);
             Scribe_Values.Look(ref pather, "rim73_pather", true, false);
             Scribe_Values.Look(ref mindstate, "rim73_mindstate", true, false);
+            //Scribe_Values.Look(ref regionCache, "rim73_regionCache", true, false);
         }
     }
 }

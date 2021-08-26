@@ -11,6 +11,9 @@ namespace Rim73
 {
     class Rim73_Pather
     {
+        // Region Caching
+        public static Dictionary<int, int?> RegionCache = new Dictionary<int, int?>(4096);
+
         // Inlined
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static List<Pawn> GetPawnsFromListThings(List<Thing> listThings, bool fast = false)
@@ -50,9 +53,10 @@ namespace Rim73
                 if (___pawn.Dead || ___pawn.Downed)
                     return false;
                 
-                if (___pawn.Faction != Faction.OfPlayer && ___pawn.mindState.anyCloseHostilesRecently)
+                if (___pawn.mindState.anyCloseHostilesRecently && ___pawn.Faction != Faction.OfPlayer)
                 {
-                    int currTicks = Find.TickManager.TicksGame;
+                    //int currTicks = Find.TickManager.TicksGame;
+                    int currTicks = Rim73.Ticks;
                     
                     // Sleeping for 80 ticks, fail-safe for Pawns who are moving and/or are fleeing
                     if (___foundPathWhichCollidesWithPawns + 60 > currTicks && !__instance.MovedRecently(40) && ___pawn.mindState.mentalStateHandler.CurStateDef != MentalStateDefOf.PanicFlee)
@@ -81,5 +85,85 @@ namespace Rim73
 
             }
         }
+
+
+
+        [HarmonyPatch(typeof(RegionListersUpdater), "DeregisterInRegions", new Type[] { typeof(Thing), typeof(Map) })]
+        static class RegionDeregesiterPatch
+        {
+            static bool Prefix(ref Thing thing, ref Map map)
+            {
+                // Skip if disabled
+                if (!Rim73_Settings.pather)
+                    return true;
+
+                if (thing.Faction == null)
+                    return true;
+
+                int thingId = thing.thingIDNumber;
+                int? curRegion = map.regionGrid.GetValidRegionAt_NoRebuild(thing.Position)?.id;
+
+                bool sameRegion = false;
+
+                if (RegionCache.ContainsKey(thingId))
+                {
+                    // Skip if still in same region
+                    sameRegion = RegionCache[thingId] == curRegion;
+                    if (!sameRegion)
+                        RegionCache[thingId] = curRegion;
+
+                    return !sameRegion;
+                }
+                else
+                {
+                    RegionCache.SetOrAdd(thingId, curRegion);
+                    return true;
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(RegionListersUpdater), "RegisterInRegions", new Type[] { typeof(Thing), typeof(Map) })]
+        static class RegionRegesiterPatch
+        {
+            static bool Prefix(ref Thing thing, ref Map map)
+            {
+                // Skip if disabled
+                if (!Rim73_Settings.pather)
+                    return true;
+
+                if (thing.Faction == null)
+                    return true;
+
+                int thingId = thing.thingIDNumber;
+                int? curRegion = map.regionGrid.GetValidRegionAt_NoRebuild(thing.Position)?.id;
+
+                bool sameRegion = false;
+
+                if ((Rim73.Ticks & (32768 - 1)) == 0)
+                {
+                    RegionCache.Clear();
+                    return true;
+                }
+
+                if (RegionCache.ContainsKey(thingId))
+                {
+                    // Skip if still in same region
+                    sameRegion = RegionCache[thingId] == curRegion;
+                    if (!sameRegion)
+                        RegionCache[thingId] = curRegion;
+
+                    return !sameRegion;
+                }
+                else
+                {
+                    RegionCache.SetOrAdd(thingId, curRegion);
+                    return true;
+                }
+
+                
+
+            }
+        }
+
     }
 }
