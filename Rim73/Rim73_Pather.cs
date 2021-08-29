@@ -98,7 +98,7 @@ namespace Rim73
             static bool Prefix(ref Thing thing, ref Map map)
             {
                 // Skip if disabled
-                if (!Rim73_Settings.pather)
+                if (!Rim73_Settings.regionCache)
                     return true;
 
                 if (thing.Faction == null && !(thing is Pawn))
@@ -131,7 +131,7 @@ namespace Rim73
             static bool Prefix(ref Thing thing, ref Map map)
             {
                 // Skip if disabled
-                if (!Rim73_Settings.pather)
+                if (!Rim73_Settings.regionCache)
                     return true;
 
                 if (thing.Faction == null && !(thing is Pawn))
@@ -149,7 +149,7 @@ namespace Rim73
                 if (RegionCache.ContainsKey(thingId))
                 {
                     // Skip if still in same region
-                    return RegionCache[thingId] == curRegion;
+                    return RegionCache[thingId] != curRegion;
                 } else
                 {
                     return true;

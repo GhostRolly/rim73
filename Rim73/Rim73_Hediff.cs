@@ -362,7 +362,10 @@ namespace Rim73
                 List<ImmunityRecord> immunities = (List<ImmunityRecord>)ImmunityHandler_immunityList.GetValue(immunityHandler);
                 for (int i = 0; i < immunities.Count; i++)
                 {
-                    immunities[i].immunity += immunities[i].ImmunityChangePerTick(pawn, true, immunizable) * timeDilatation * 0.7f;
+                    if (pawn.health.State != PawnHealthState.Mobile)
+                        return;
+
+                    immunities[i].immunity += immunities[i].ImmunityChangePerTick(pawn, true, immunizable) * timeDilatation * 0.8f;
                     immunities[i].immunity = Mathf.Clamp01(immunities[i].immunity);
                 }
             }
@@ -377,6 +380,11 @@ namespace Rim73
             {
                 if (!Rim73_Settings.hediff)
                     return true;
+
+                /*
+                if (___pawn.health.State != PawnHealthState.Mobile)
+                    return false;
+                */
 
                 int thingId = ___pawn.thingIDNumber;
                 //int ticks = Find.TickManager.TicksGame;

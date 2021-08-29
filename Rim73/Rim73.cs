@@ -29,6 +29,7 @@ namespace Rim73
             static void Postfix()
             {
                 // Inits the Dictionary for a fixed size in memory.
+                Log.Warning("Rim73 > Loaded new game, resetting caching variables");
                 Rim73_MindState.InitCache();
                 Rim73_Pather.InitRegionCache();
             }

@@ -43,6 +43,8 @@ namespace Rim73
         public const UInt64 Job_GiveSpeech = 3019778364028968580;
         public const UInt64 Job_MarryAdjacentPawn = 6719037904742927402;
         public const UInt64 Job_AttackMelee = 5645113172716386877;
+        public const UInt64 Job_LayDownResting = 9748045025245048591;
+        public const UInt64 Job_LayDownAwake = 9589447975186139704;
 
         // Used for fast-access on private members (thanks Tynan)
         public static void InitFieldInfos()
@@ -190,7 +192,7 @@ namespace Rim73
                     JobDriver curDriver = __instance.curDriver;
                     if (curDriver != null)
                     {   
-                        if (jobHashCode == Job_LayDown)
+                        if (jobHashCode == Job_LayDown || jobHashCode == Job_LayDownResting || jobHashCode == Job_LayDownAwake)
                         {
                             // LayDown
                             if (hash % 150 == 0 || hash % 211 == 0)

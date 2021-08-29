@@ -12,6 +12,7 @@ namespace Rim73
         public static bool pather = true;
         public static bool mindstate = true;
         public static bool regionCache = true;
+        public static bool enemiesNearbyCache = true;
 
         private static Vector2 ScrollPos = Vector2.zero;
        
@@ -26,6 +27,7 @@ namespace Rim73
             GUI.EndGroup();
             Widgets.BeginScrollView(inRect, ref ScrollPos, viewRect);
             listing_Standard.Label("rim73_settings".Translate());
+            listing_Standard.GapLine();
 
             listing_Standard.CheckboxLabeled("rim73_hediff".Translate(), ref hediff, "rim73_hediff_note".Translate());
             //listing_Standard.CheckboxLabeled("rim73_mood".Translate(), ref mood, "rim73_mood_note".Translate());
@@ -33,6 +35,13 @@ namespace Rim73
             listing_Standard.CheckboxLabeled("rim73_pather".Translate(), ref pather, "rim73_pather_note".Translate());
             listing_Standard.CheckboxLabeled("rim73_jobs".Translate(), ref jobs, "rim73_jobs_note".Translate());
             listing_Standard.CheckboxLabeled("rim73_mindstate".Translate(), ref mindstate, "rim73_mindstate_note".Translate());
+
+            listing_Standard.Gap(36);
+            listing_Standard.Label("rim73_settings_experimental".Translate());
+            listing_Standard.GapLine();
+            listing_Standard.CheckboxLabeled("rim73_regionCache".Translate(), ref regionCache, "rim73_regionCache_note".Translate());
+            listing_Standard.CheckboxLabeled("rim73_enemiesNearbyCache".Translate(), ref enemiesNearbyCache, "rim73_enemiesNearbyCache_note".Translate());
+
             //listing_Standard.CheckboxLabeled("rim73_regionCache".Translate(), ref regionCache, "rim73_regionCache_note".Translate());
 
             /*
@@ -54,7 +63,8 @@ namespace Rim73
             Scribe_Values.Look(ref needs, "rim73_needs", true, false);
             Scribe_Values.Look(ref pather, "rim73_pather", true, false);
             Scribe_Values.Look(ref mindstate, "rim73_mindstate", true, false);
-            //Scribe_Values.Look(ref regionCache, "rim73_regionCache", true, false);
+            Scribe_Values.Look(ref regionCache, "rim73_regionCache", true, false);
+            Scribe_Values.Look(ref enemiesNearbyCache, "rim73_enemiesNearbyCache", true, false);
         }
     }
 }

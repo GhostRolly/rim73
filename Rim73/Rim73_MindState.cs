@@ -68,7 +68,7 @@ namespace Rim73
             static bool Prefix(ref Pawn pawn, ref int regionsToScan, ref bool passDoors, ref bool __result)
             {
                 // Skip if Mindstate is disabled
-                if (!Rim73_Settings.mindstate)
+                if (!Rim73_Settings.enemiesNearbyCache)
                     return true;
 
                 // This is animals, they don't need this unless they are in manhunter mode, so we skip
@@ -97,7 +97,7 @@ namespace Rim73
             static void Postfix(ref Pawn pawn, ref int regionsToScan, ref bool passDoors, ref bool __result)
             {
                 // Caching result
-                if (pawn.Faction != null && regionsToScan != 256)
+                if (pawn.Faction != null && regionsToScan != 256 && Rim73_Settings.enemiesNearbyCache)
                 {
                     NearbyEnemiesCache enemiesCache = NearbyEnemiesDataCache[pawn.Faction.loadID];
                     enemiesCache.lastTick = Rim73.Ticks + 1000;
