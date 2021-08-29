@@ -21,13 +21,26 @@ namespace Rim73
             // Jobs init
             Rim73_Jobs.InitFieldInfos();
         }
+
+        // On Loading new game
+        [HarmonyPatch(typeof(Game), "FinalizeInit", new Type[] { })]
+        static class OnLoadedGame
+        {
+            static void Postfix()
+            {
+                // Inits the Dictionary for a fixed size in memory.
+                Rim73_MindState.InitCache();
+                Rim73_Pather.InitRegionCache();
+            }
+        }
+
     }
 
     public class Rim73 : Mod
     {
 
         public static Rim73_Settings Settings;
-        public static string Version = "1.1c";
+        public static string Version = "1.2";
         
         // Immunity
         public static MethodInfo ImmunityHandler;

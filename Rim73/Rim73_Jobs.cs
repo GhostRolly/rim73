@@ -129,33 +129,24 @@ namespace Rim73
             {
                 if (Rim73_Settings.jobs)
                 {
-                    if (___pawn.Dead || ___pawn.Downed)
+                    if (___pawn.health.State != PawnHealthState.Mobile)
                         return false;
 
                     // Hash
                     UInt64 jobHashCode = __instance.curJob != null ? CalculateHash(__instance.curJob.def.defName) : 0;
 
                     // Rope for animals (only for players)
-                    if ((jobHashCode == Job_None || jobHashCode == Job_Wait) && ___pawn.RaceProps.Animal)
+                    if ((jobHashCode == Job_None || jobHashCode == Job_Wait) && ___pawn.Faction != null && ___pawn.RaceProps.Animal)
                         return true;
 
                     // Manual checks, this prevents from getting TicksGame from memory again and again
                     int thingId = ___pawn.thingIDNumber;
-                    //int ticks = Find.TickManager.TicksGame;
                     int ticks = Rim73.Ticks;
                     int hash = thingId + ticks;
 
-                    // If attacking, we tick faster
-                    if (___pawn.mindState.anyCloseHostilesRecently && hash % 60 == 0)
-                        return true;
-
                     // ThinkTree jobs
-                    if (hash % 90 == 0)
+                    if (hash % 180 == 0)
                     {
-                        // Skip
-                        if (!___pawn.mindState.anyCloseHostilesRecently && !(hash % 180 == 0) && ___pawn.RaceProps.Animal)
-                            return false;
-
                         if (hash % 270 == 0 && (
                                 jobHashCode == Job_None ||
                                 jobHashCode == Job_Wait_Wander ||

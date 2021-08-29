@@ -21,6 +21,31 @@ namespace Rim73
         {
             static bool Prefix(ref Thing t, ref int interval, ref bool __result)
             {
+                /*
+                // Unfortunately, requires too much work...
+                interval |= interval >> 1;
+
+                // This makes sure 4 bits
+                // (From MSB and including MSB)
+                // are set. It does following
+                // 110011001 | 001100110 = 111111111
+                interval |= interval >> 2;
+
+                interval |= interval >> 4;
+                interval |= interval >> 8;
+                interval |= interval >> 16;
+
+                // Increment n by 1 so that
+                // there is only one set bit
+                // which is just before original
+                // MSB. n now becomes 1000000000
+                interval = interval + 1;
+
+                // Return original MSB after shifting.
+                // n now becomes 100000000
+                __result = ((Rim73.Ticks + t.thingIDNumber) & interval) == 0;
+
+                */
                 __result = (Rim73.Ticks + t.thingIDNumber) % interval == 0;
                 //__result = (Rim73.Ticks + t.thingIDNumber) & ((interval | 3) - 1)) == 0;
                 return false;
@@ -36,12 +61,5 @@ namespace Rim73
                 return true;
             }
         }
-
-
-          // Region Caching
-        // Region regionAtNoRebuild = map.regionGrid.GetValidRegionAt_NoRebuild(this.Position);
-
-
-
     }
 }

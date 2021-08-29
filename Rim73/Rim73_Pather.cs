@@ -14,6 +14,11 @@ namespace Rim73
         // Region Caching
         public static Dictionary<int, int?> RegionCache = new Dictionary<int, int?>(2048);
 
+        public static void InitRegionCache()
+        {
+            RegionCache.Clear();
+        }
+
         // Inlined
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static List<Pawn> GetPawnsFromListThings(List<Thing> listThings, bool fast = false)
@@ -50,7 +55,7 @@ namespace Rim73
                     return true;
 
                 // skip the dead and downed
-                if (___pawn.Dead || ___pawn.Downed)
+                if (___pawn.health.State != PawnHealthState.Mobile)
                     return false;
                 
                 if (___pawn.mindState.anyCloseHostilesRecently && ___pawn.Faction != Faction.OfPlayer)
@@ -87,7 +92,6 @@ namespace Rim73
         }
 
 
-
         [HarmonyPatch(typeof(RegionListersUpdater), "DeregisterInRegions", new Type[] { typeof(Thing), typeof(Map) })]
         static class RegionDeregesiterPatch
         {
@@ -97,21 +101,20 @@ namespace Rim73
                 if (!Rim73_Settings.pather)
                     return true;
 
-                if (thing.Faction == null)
+                if (thing.Faction == null && !(thing is Pawn))
                     return true;
 
                 int thingId = thing.thingIDNumber;
                 int? curRegion = map.regionGrid.GetValidRegionAt_NoRebuild(thing.Position)?.id;
 
-                bool sameRegion = false;
-
                 if (RegionCache.ContainsKey(thingId))
                 {
                     // Skip if still in same region
-                    sameRegion = RegionCache[thingId] == curRegion;
+                    bool sameRegion = RegionCache[thingId] == curRegion;
+
                     if (!sameRegion)
                         RegionCache[thingId] = curRegion;
-
+                    
                     return !sameRegion;
                 }
                 else
@@ -131,13 +134,11 @@ namespace Rim73
                 if (!Rim73_Settings.pather)
                     return true;
 
-                if (thing.Faction == null)
+                if (thing.Faction == null && !(thing is Pawn))
                     return true;
 
                 int thingId = thing.thingIDNumber;
                 int? curRegion = map.regionGrid.GetValidRegionAt_NoRebuild(thing.Position)?.id;
-
-                bool sameRegion = false;
 
                 if ((Rim73.Ticks & (65535 - 1)) == 0)
                 {
@@ -148,19 +149,11 @@ namespace Rim73
                 if (RegionCache.ContainsKey(thingId))
                 {
                     // Skip if still in same region
-                    sameRegion = RegionCache[thingId] == curRegion;
-                    if (!sameRegion)
-                        RegionCache[thingId] = curRegion;
-
-                    return !sameRegion;
-                }
-                else
+                    return RegionCache[thingId] == curRegion;
+                } else
                 {
-                    RegionCache.SetOrAdd(thingId, curRegion);
                     return true;
                 }
-
-                
 
             }
         }
