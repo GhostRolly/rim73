@@ -46,6 +46,7 @@ namespace Rim73
                 __result = ((Rim73.Ticks + t.thingIDNumber) & interval) == 0;
 
                 */
+
                 __result = (Rim73.Ticks + t.thingIDNumber) % interval == 0;
                 //__result = (Rim73.Ticks + t.thingIDNumber) & ((interval | 3) - 1)) == 0;
                 return false;
@@ -57,7 +58,7 @@ namespace Rim73
         {
             static bool Prefix()
             {
-                Rim73.Ticks = Find.TickManager.TicksGame;
+                Rim73.Ticks = Find.TickManager.TicksGame + 1;
                 return true;
             }
         }

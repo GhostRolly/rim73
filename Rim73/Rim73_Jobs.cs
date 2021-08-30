@@ -16,6 +16,7 @@ namespace Rim73
         // Basic analysis
         public static Dictionary<string, int> ToilAnalysis = new Dictionary<string, int>();
         public static FieldInfo JobDriver_toils;
+        public static FieldInfo Need_Rest_lastRestTick;
         public static int LastDisplayed;
 
         // Jobs Hashes Constants
@@ -50,6 +51,7 @@ namespace Rim73
         public static void InitFieldInfos()
         {
             JobDriver_toils = typeof(JobDriver).GetField("toils", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
+            Need_Rest_lastRestTick = typeof(Need_Rest).GetField("lastRestTick", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
         }
 
         // Hash function
@@ -173,7 +175,7 @@ namespace Rim73
                     // JobDriver_LayDown | 36%
                     //      > LayDown is ticked every 150 ticks to check if need has changed
                     //      > Tick Action
-                    //      > Change Need_Rest.lastRestTick to GameTicks
+                    //      > Change Need_Rest.lastRestTick to GameTick
                     //      > We can throttle this job safely
                     // JobDriver_Wait | 27%
                     //      > We can throttle this JobDriver by a lot too
@@ -199,8 +201,12 @@ namespace Rim73
                             {
                                 // Compensating for comfort
                                 curDriver.DriverTick();
+
                                 if(___pawn.needs.comfort != null)
-                                    ___pawn.needs.comfort.lastComfortUseTick = hash + 150;
+                                    ___pawn.needs.comfort.lastComfortUseTick = ticks + 160;
+
+                                if (___pawn.needs.rest != null)
+                                    Need_Rest_lastRestTick.SetValue(___pawn.needs.rest, ticks + 211);
                             }
 
                             return false;

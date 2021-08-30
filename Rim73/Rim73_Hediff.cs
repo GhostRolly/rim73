@@ -129,7 +129,9 @@ namespace Rim73
                     continue;
 
                 // Special case... ticks every time unfortunately
-                if (hediff.def.defName == "Pregnant")
+                // This should take into account the Pregnancy, Pregnant, pregnant and pregnancy of all
+                // the mods that implement it.
+                if (hediff.def.defName.Contains("regnan"))
                 {
                     float preTickSeverity = hediff.Severity;
                     hediff.Tick();
