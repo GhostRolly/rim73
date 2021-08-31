@@ -85,7 +85,7 @@ namespace Rim73
                 // It's been 1000 ticks, let's skip
                 if (Rim73.Ticks > enemiesCache.lastTick)
                 {
-                    regionsToScan += 5;
+                    regionsToScan *= 2;
                     return true;
                 }
                     
@@ -101,7 +101,7 @@ namespace Rim73
                 if (pawn.Faction != null && regionsToScan != 256 && Rim73_Settings.enemiesNearbyCache)
                 {
                     NearbyEnemiesCache enemiesCache = NearbyEnemiesDataCache[pawn.Faction.loadID];
-                    enemiesCache.lastTick = Rim73.Ticks + 120;
+                    enemiesCache.lastTick = Rim73.Ticks + 150;
                     enemiesCache.enemiesNeaby = __result;
                     NearbyEnemiesDataCache[pawn.Faction.loadID] = enemiesCache;
                 }

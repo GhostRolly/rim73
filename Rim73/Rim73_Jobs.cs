@@ -136,6 +136,10 @@ namespace Rim73
                     if (___pawn.health.State != PawnHealthState.Mobile)
                         return false;
 
+                    // Drafted and Enemies skipped
+                    if (___pawn.mindState.anyCloseHostilesRecently)
+                        return true;
+
                     // Hash
                     UInt64 jobHashCode = __instance.curJob != null ? CalculateHash(__instance.curJob.def.defName) : 0;
 
@@ -149,9 +153,9 @@ namespace Rim73
                     int hash = thingId + ticks;
 
                     // ThinkTree jobs
-                    if (hash % 180 == 0)
+                    if (hash % 60 == 0)
                     {
-                        if (hash % 270 == 0 && (
+                        if (hash % 240 == 0 && (
                                 jobHashCode == Job_None ||
                                 jobHashCode == Job_Wait_Wander ||
                                 jobHashCode == Job_Wait
