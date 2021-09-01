@@ -99,13 +99,14 @@ namespace Rim73
             static void Postfix(ref Pawn pawn, ref int regionsToScan, ref bool passDoors, ref bool __result)
             {
                 // Caching result
+                // TODO :: do per map
                 if (pawn.Faction != null && regionsToScan != 256 && Rim73_Settings.enemiesNearbyCache)
                 {
                     NearbyEnemiesCache enemiesCache = NearbyEnemiesDataCache[pawn.Faction.loadID];
                     enemiesCache.lastTick = Rim73.Ticks + 200;
                     enemiesCache.enemiesNeaby = __result;
                     NearbyEnemiesDataCache[pawn.Faction.loadID] = enemiesCache;
-                    Log.Warning("Faction " + pawn.Faction.loadID + " has enemies nearby : " + __result + " with scan radius : " + regionsToScan);
+                    //Log.Warning("Faction " + pawn.Faction.loadID + " has enemies nearby : " + __result + " with scan radius : " + regionsToScan);
                 }
             }
         }
