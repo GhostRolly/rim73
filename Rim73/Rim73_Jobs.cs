@@ -261,7 +261,7 @@ namespace Rim73
                             {
                                 CleanupCurrentJob(ref ___pawn, ref __instance);
                                 Rim73.JobTracker_TryFindAndStartJob_FastInvoke(__instance, null);
-                                return false;
+                                return true;
                             }
                         } else {
                             return true;
