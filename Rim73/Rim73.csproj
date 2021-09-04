@@ -67,6 +67,7 @@
     <Compile Include="Rim73_Needs.cs" />
     <Compile Include="Rim73_Pather.cs" />
     <Compile Include="Rim73_Settings.cs" />
+    <Compile Include="Rim73_ThinkNodes.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

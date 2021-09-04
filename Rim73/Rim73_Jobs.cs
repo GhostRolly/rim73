@@ -47,6 +47,15 @@ namespace Rim73
         public const UInt64 Job_LayDownResting = 9748045025245048591;
         public const UInt64 Job_LayDownAwake = 9589447975186139704;
         public const UInt64 Job_Ingest = 5067400492013787987;
+        public const UInt64 Job_Deconstruct = 3139963962373897619;
+        public const UInt64 Job_RemoveRoof = 16196833210341086447;
+        public const UInt64 Job_DoBill = 18364458676350300181;
+        public const UInt64 Job_SmoothFloor = 5182257347951032059;
+        public const UInt64 Job_Mine = 9147459904847990036;
+        public const UInt64 Job_RemoveFloor = 5657975169607793729;
+        public const UInt64 Job_SmoothWall = 827729921596434943;
+        public const UInt64 Job_HaulToCell = 14690506950397508106;
+        public const UInt64 Job_HaulToContainer = 15535361015283980771;
 
         // Used for fast-access on private members (thanks Tynan)
         public static void InitFieldInfos()
@@ -134,7 +143,7 @@ namespace Rim73
             {
                 if (Rim73_Settings.jobs)
                 {
-                    if (___pawn.health.State != PawnHealthState.Mobile)
+                    if (___pawn.health.State == PawnHealthState.Dead)
                         return false;
 
                     // Drafted and Enemies skipped
@@ -199,7 +208,7 @@ namespace Rim73
 
                     JobDriver curDriver = __instance.curDriver;
                     if (curDriver != null)
-                    {   
+                    {
                         if (jobHashCode == Job_LayDown)
                         {
                             // LayDown
@@ -208,7 +217,7 @@ namespace Rim73
                                 // Compensating for comfort
                                 curDriver.DriverTick();
 
-                                if(___pawn.needs.comfort != null)
+                                if (___pawn.needs.comfort != null)
                                     ___pawn.needs.comfort.lastComfortUseTick = ticks + 211;
 
                                 if (___pawn.needs.rest != null)
@@ -216,7 +225,7 @@ namespace Rim73
                             }
 
                             return false;
-                        }else if (jobHashCode == Job_Wait || jobHashCode == Job_Wait_MaintainPosture || jobHashCode == Job_Goto || jobHashCode == Job_GotoWander)
+                        } else if (jobHashCode == Job_Wait || jobHashCode == Job_Wait_MaintainPosture || jobHashCode == Job_Goto || jobHashCode == Job_GotoWander)
                         {
                             // Wait and Wait_MaintainPosture
                             return false;
@@ -230,7 +239,16 @@ namespace Rim73
                             jobHashCode == Job_CutPlantDesignated ||
                             jobHashCode == Job_Repair ||
                             jobHashCode == Job_FixBrokenDownBuilding ||
-                            jobHashCode == Job_BuildRoof
+                            jobHashCode == Job_BuildRoof ||
+                            jobHashCode == Job_Deconstruct ||
+                            jobHashCode == Job_RemoveRoof ||
+                            jobHashCode == Job_DoBill ||
+                            jobHashCode == Job_SmoothFloor ||
+                            jobHashCode == Job_Mine ||
+                            jobHashCode == Job_RemoveFloor ||
+                            jobHashCode == Job_SmoothWall ||
+                            jobHashCode == Job_HaulToCell ||
+                            jobHashCode == Job_HaulToContainer
                          ) {
                             // * NO SKIP JOBS *
                             // While doing these short jobs, pawns don't need to do any kind of checks
