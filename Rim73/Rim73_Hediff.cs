@@ -383,11 +383,6 @@ namespace Rim73
                 if (!Rim73_Settings.hediff)
                     return true;
 
-                /*
-                if (___pawn.health.State != PawnHealthState.Mobile)
-                    return false;
-                */
-
                 int thingId = ___pawn.thingIDNumber;
                 //int ticks = Find.TickManager.TicksGame;
                 int ticks = Rim73.Ticks;

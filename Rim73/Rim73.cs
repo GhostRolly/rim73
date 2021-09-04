@@ -41,7 +41,7 @@ namespace Rim73
     {
 
         public static Rim73_Settings Settings;
-        public static string Version = "1.2c";
+        public static string Version = "1.3";
         
         // Immunity
         public static MethodInfo ImmunityHandler;

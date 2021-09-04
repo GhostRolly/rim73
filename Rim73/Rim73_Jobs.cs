@@ -46,6 +46,7 @@ namespace Rim73
         public const UInt64 Job_AttackMelee = 5645113172716386877;
         public const UInt64 Job_LayDownResting = 9748045025245048591;
         public const UInt64 Job_LayDownAwake = 9589447975186139704;
+        public const UInt64 Job_Ingest = 5067400492013787987;
 
         // Used for fast-access on private members (thanks Tynan)
         public static void InitFieldInfos()
@@ -151,24 +152,25 @@ namespace Rim73
                     int thingId = ___pawn.thingIDNumber;
                     int ticks = Rim73.Ticks;
                     int hash = thingId + ticks;
+                    bool isTickingHash = ((hash & (30)) == 30 || (hash & (60)) == 60) && (hash & 1) == 0;
+                    bool isLikelyAnimal = ___pawn.Faction == null;
 
-                    // ThinkTree jobs
-                    if (hash % 60 == 0)
-                    {
-                        if (hash % 240 == 0 && (
-                                jobHashCode == Job_None ||
-                                jobHashCode == Job_Wait_Wander ||
-                                jobHashCode == Job_Wait
-                            )
-                        )
+                    // Animals, ticks really slow
+                    if (isLikelyAnimal) {
+                        // Once every odd 500 ticks, search for a new job
+                        if ((((hash & 540) == 540) && (hash & 1) == 0) && hash % 30 == 0)
+                            return true;
+
+                        if ((jobHashCode == Job_Wait || jobHashCode == Job_Wait_MaintainPosture) && (hash & (512-1)) == 0)
                         {
                             CleanupCurrentJob(ref ___pawn, ref __instance);
-                            
-                            // Mechs have a tendency to get out and smash things up!
-                            if (!___pawn.RaceProps.IsMechanoid)
-                                __instance.StartJob(JobMaker.MakeJob(JobDefOf.GotoWander, RandomWanderPos(ref ___pawn)), cancelBusyStances: false);
+                            __instance.StartJob(JobMaker.MakeJob(JobDefOf.GotoWander, RandomWanderPos(ref ___pawn)), cancelBusyStances: false);
                         }
+                    }
 
+                    // ThinkTree jobs
+                    if (isTickingHash && hash % 30 == 0 && jobHashCode != Job_LayDown && jobHashCode != Job_GotoWander && !isLikelyAnimal)
+                    {
                         return true;
                     }
 
@@ -198,7 +200,7 @@ namespace Rim73
                     JobDriver curDriver = __instance.curDriver;
                     if (curDriver != null)
                     {   
-                        if (jobHashCode == Job_LayDown || jobHashCode == Job_LayDownResting || jobHashCode == Job_LayDownAwake)
+                        if (jobHashCode == Job_LayDown)
                         {
                             // LayDown
                             if (hash % 150 == 0 || hash % 211 == 0)
@@ -207,41 +209,19 @@ namespace Rim73
                                 curDriver.DriverTick();
 
                                 if(___pawn.needs.comfort != null)
-                                    ___pawn.needs.comfort.lastComfortUseTick = ticks + 160;
+                                    ___pawn.needs.comfort.lastComfortUseTick = ticks + 211;
 
                                 if (___pawn.needs.rest != null)
                                     Need_Rest_lastRestTick.SetValue(___pawn.needs.rest, ticks + 211);
                             }
 
                             return false;
-                        }else if (jobHashCode == Job_Wait || jobHashCode == Job_Wait_MaintainPosture)
+                        }else if (jobHashCode == Job_Wait || jobHashCode == Job_Wait_MaintainPosture || jobHashCode == Job_Goto || jobHashCode == Job_GotoWander)
                         {
                             // Wait and Wait_MaintainPosture
-                            if (hash % 120 == 0)
-                            {
-                                curDriver.DriverTick();
-                                return true;
-                            }
-
                             return false;
-                        }else if (jobHashCode == Job_Goto || jobHashCode == Job_GotoWander)
-                        {
-                            // Goto and GotoWander
-                            return false;
-                        }else if(jobHashCode == Job_OperateDeepDrill || jobHashCode == Job_OperateScanner)
-                        {
-                            // Deep drilling toils don't have any kind of checks to see if Pawn should do something else...
-                            curDriver.DriverTick();
 
-                            // This job doesn't contain checks for its tickAction toil, so let's do it ourselves...
-                            // Fix for Half cyclydian cycler
-                            if ((hash % 211 == 0) && (___pawn.needs.rest != null && ___pawn.needs.rest.CurLevel <= 0.33 || ___pawn.needs.food.CurLevel <= 0.33))
-                            {
-                                CleanupCurrentJob(ref ___pawn, ref __instance);
-                                __instance.StartJob(JobMaker.MakeJob(JobDefOf.GotoWander, RandomWanderPos(ref ___pawn)), cancelBusyStances: false);
-                                return true;
-                            }
-                        }else if (
+                        } else if (
                             jobHashCode == Job_FinishFrame ||
                             jobHashCode == Job_CutPlant ||
                             jobHashCode == Job_Sow ||
@@ -251,32 +231,22 @@ namespace Rim73
                             jobHashCode == Job_Repair ||
                             jobHashCode == Job_FixBrokenDownBuilding ||
                             jobHashCode == Job_BuildRoof
-                            )
-                         {
+                         ) {
+                            // * NO SKIP JOBS *
+                            // While doing these short jobs, pawns don't need to do any kind of checks
+                            // We skip a lot of things.
                             // Pawn has finished his building, let's see what else he can do!
                             curDriver.DriverTick();
+
+                            // If job ended, then start new one
                             if (curDriver.ended && !__instance.curJob.playerForced)
                             {
                                 CleanupCurrentJob(ref ___pawn, ref __instance);
                                 Rim73.JobTracker_TryFindAndStartJob_FastInvoke(__instance, null);
                                 return false;
                             }
-                        } else if(jobHashCode == Job_AttackMelee)
-                        {
-                            // Special case for Pawns & Animals
-                            // Sometimes the maxNumMelee isn't provided for Pawns & Maddened animals
-                            // Which means we get int.MaxValue as maxMelee
-                            if (curDriver.job.attackDoorIfTargetLost && curDriver.job.maxNumMeleeAttacks == 0x7FFFFFFF)
-                            {
-                                CleanupCurrentJob(ref ___pawn, ref __instance);
-                                return true;
-                            }
-
-                            curDriver.DriverTick();
-                        }
-                        else
-                        {
-                            curDriver.DriverTick();
+                        } else {
+                            return true;
                         }
                     }
                     
@@ -321,7 +291,8 @@ namespace Rim73
                     UInt64 jobHashCode = CalculateHash(jobTypeName);
 
                     // We're gonna take every single bit of optimisations we can here
-                    if ((ticks + thingId) % 20 == 0 ||
+                    if (((ticks + thingId) & (16-1)) == 0 ||
+                        jobHashCode == Job_Goto ||
                         jobHashCode == Job_Clean ||
                         jobHashCode == Job_CutPlant ||
                         jobHashCode == Job_Harvest ||
@@ -330,7 +301,8 @@ namespace Rim73
                         jobHashCode == Job_StandAndBeSociallyActive ||
                         jobHashCode == Job_GiveSpeech ||
                         jobHashCode == Job_MarryAdjacentPawn ||
-                        jobHashCode == Job_CutPlantDesignated
+                        jobHashCode == Job_CutPlantDesignated ||
+                        jobHashCode == Job_Ingest
                     )
                     {
                         return true;
