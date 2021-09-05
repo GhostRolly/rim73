@@ -364,7 +364,7 @@ namespace Rim73
                 List<ImmunityRecord> immunities = (List<ImmunityRecord>)ImmunityHandler_immunityList.GetValue(immunityHandler);
                 for (int i = 0; i < immunities.Count; i++)
                 {
-                    if (pawn.health.State != PawnHealthState.Mobile)
+                    if (pawn.health.State == PawnHealthState.Dead)
                         return;
 
                     immunities[i].immunity += immunities[i].ImmunityChangePerTick(pawn, true, immunizable) * timeDilatation * 0.8f;
