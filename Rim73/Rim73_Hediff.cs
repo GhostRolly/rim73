@@ -100,6 +100,7 @@ namespace Rim73
                 Hediff_BitMask[def.defName] = mask;
                 //bool hasImmune = !(((int)HediffCompProps.HediffCompProperties_Immunizable & mask) == 0);
                 //Log.Warning(def.defName + ((hasImmune) ? " has " : " doesn't have ") + "HediffCompProperties_Immunizable");
+
             }
 
             Log.Message("Rim73 cached " + Hediff_BitMask.Keys.Count + " heddifs.");
@@ -225,7 +226,7 @@ namespace Rim73
             {
                 Hediff hediff = hediffs[index];
                 int hediffFlag = 0;
-
+                
                 // HediffGivers
                 // HediffGivers
                 // This is for Hypothermia, Bleeding and Heatstroke
@@ -267,6 +268,8 @@ namespace Rim73
                 {
                     immunizable = hediff;
                 }
+
+                Log.Warning("" + IsHediffType(ref hediffFlag, HediffCompProps.HediffCompProperties_Immunizable));
 
                 // OH BOY, LETS GO
                 if (

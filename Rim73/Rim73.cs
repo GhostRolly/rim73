@@ -13,7 +13,6 @@ namespace Rim73
     {
         // Loader
         static Rim73_Loader() {
-            
             // HediffComps Caching
             Rim73_Hediff.InitHediffCompsDB();
             Rim73_Hediff.InitFieldInfos();
@@ -26,15 +25,21 @@ namespace Rim73
         [HarmonyPatch(typeof(Game), "FinalizeInit", new Type[] { })]
         static class OnLoadedGame
         {
-            static void Postfix()
+            static void Postfix(ref Game __instance)
             {
                 // Inits the Dictionary for a fixed size in memory.
                 Log.Warning("Rim73 > Loaded new game, resetting caching variables");
                 Rim73_MindState.InitCache();
                 Rim73_Pather.InitRegionCache();
+
+                // Setup WarpSpeed
+                if (Rim73_Settings.warpSpeed)
+                {
+                    Rim73.TickManager_UltraSpeedBoost.SetValue(__instance.tickManager, Rim73_Settings.warpSpeed);
+                    Log.Warning("WarpSpeed is enabled, you can disable it from the Rim73 settings and reload the game to take effect.");
+                }
             }
         }
-
     }
 
     public class Rim73 : Mod
@@ -63,13 +68,16 @@ namespace Rim73
         public static MethodInfo HediffComp_HealPermanentWounds_CompPostTick;
         public static FastInvokeHandler HediffComp_HealPermanentWounds_CompPostTick_FastInvoke;
 
+        // Tick Manager
+        public static FieldInfo TickManager_UltraSpeedBoost;
+
         // Ticker
         public static int Ticks = 0;
         
 
         public Rim73(ModContentPack content) : base(content)
         {
-            var harmony = new Harmony("ghost.rolly.rim73");
+            Harmony harmony = new Harmony("ghost.rolly.rim73");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             // Get MethodInfo for Immunity Handler
@@ -92,6 +100,12 @@ namespace Rim73
             // Methods for HediffComp_HealPermanentWounds
             HediffComp_HealPermanentWounds_CompPostTick = typeof(Verse.HediffComp_HealPermanentWounds).GetMethod("CompPostTick");
             HediffComp_HealPermanentWounds_CompPostTick_FastInvoke = MethodInvoker.GetHandler(HediffComp_HealPermanentWounds_CompPostTick);
+
+            // WarpSpeed
+            Rim73.TickManager_UltraSpeedBoost = typeof(TickManager).GetField("UltraSpeedBoost", BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Static);
+
+            // Compatibilities
+            Rim73_Compatibility.DoAllCompatiblities(harmony);
 
             Verse.Log.Message("Rim73 "+ Version + " Initialized");
             base.GetSettings<Rim73_Settings>();

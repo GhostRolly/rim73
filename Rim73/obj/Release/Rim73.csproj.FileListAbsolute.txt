@@ -201,3 +201,4 @@ C:\Users\NGTX970\Documents\Visual Studio 2015\Projects\Rim73\rim73\Rim73\bin\Rel
 C:\Users\NGTX970\Documents\Visual Studio 2015\Projects\Rim73\rim73\Rim73\obj\Release\Rim73.csprojResolveAssemblyReference.cache
 C:\Users\NGTX970\Documents\Visual Studio 2015\Projects\Rim73\rim73\Rim73\obj\Release\Rim73.dll
 C:\Users\NGTX970\Documents\Visual Studio 2015\Projects\Rim73\rim73\Rim73\obj\Release\Rim73.pdb
+C:\Users\NGTX970\Documents\Visual Studio 2015\Projects\Rim73\rim73\Rim73\bin\Release\SmartSpeed.dll

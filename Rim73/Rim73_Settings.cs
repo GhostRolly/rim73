@@ -13,6 +13,7 @@ namespace Rim73
         public static bool mindstate = true;
         public static bool regionCache = true;
         public static bool enemiesNearbyCache = true;
+        public static bool warpSpeed = false;
 
         private static Vector2 ScrollPos = Vector2.zero;
        
@@ -42,6 +43,11 @@ namespace Rim73
             listing_Standard.CheckboxLabeled("rim73_regionCache".Translate(), ref regionCache, "rim73_regionCache_note".Translate());
             listing_Standard.CheckboxLabeled("rim73_enemiesNearbyCache".Translate(), ref enemiesNearbyCache, "rim73_enemiesNearbyCache_note".Translate());
 
+            listing_Standard.Gap(36);
+            listing_Standard.Label("rim73_settings_misc".Translate());
+            listing_Standard.GapLine();
+            listing_Standard.CheckboxLabeled("rim73_superSpeed".Translate(), ref warpSpeed, "rim73_superSpeed_note".Translate());
+
             //listing_Standard.CheckboxLabeled("rim73_regionCache".Translate(), ref regionCache, "rim73_regionCache_note".Translate());
 
             /*
@@ -65,6 +71,7 @@ namespace Rim73
             Scribe_Values.Look(ref mindstate, "rim73_mindstate", true, false);
             Scribe_Values.Look(ref regionCache, "rim73_regionCache", true, false);
             Scribe_Values.Look(ref enemiesNearbyCache, "rim73_enemiesNearbyCache", true, false);
+            Scribe_Values.Look(ref warpSpeed, "rim73_superSpeed", false, false);
         }
     }
 }

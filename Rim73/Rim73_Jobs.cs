@@ -56,6 +56,8 @@ namespace Rim73
         public const UInt64 Job_SmoothWall = 827729921596434943;
         public const UInt64 Job_HaulToCell = 14690506950397508106;
         public const UInt64 Job_HaulToContainer = 15535361015283980771;
+        public const UInt64 Job_PrepareCaravan_GatherItems = 8233455930363745394;
+
 
         // Used for fast-access on private members (thanks Tynan)
         public static void InitFieldInfos()
@@ -238,7 +240,6 @@ namespace Rim73
                         {
                             // Wait and Wait_MaintainPosture
                             return false;
-
                         } else if (jobHashCode == Job_Goto) {
                             return (___pawn.drafter != null && ___pawn.drafter.Drafted) ? true : false;
                         } else if (
@@ -259,7 +260,8 @@ namespace Rim73
                          jobHashCode == Job_RemoveFloor ||
                          jobHashCode == Job_SmoothWall ||
                          jobHashCode == Job_HaulToCell ||
-                         jobHashCode == Job_HaulToContainer
+                         jobHashCode == Job_HaulToContainer ||
+                         jobHashCode == Job_PrepareCaravan_GatherItems
                       ) {
                             // * NO SKIP JOBS *
                             // While doing these short jobs, pawns don't need to do any kind of checks
