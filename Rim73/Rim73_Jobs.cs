@@ -118,6 +118,7 @@ namespace Rim73
                     instance.curDriver.ended = true;
                     instance.curDriver.Cleanup(JobCondition.Succeeded);
                 }
+
                 instance.curDriver = (JobDriver)null;
                 Job curJob = instance.curJob;
                 instance.curJob = (Job)null;
@@ -164,8 +165,16 @@ namespace Rim73
                     bool isTickingHash = ((hash & (30)) == 30 || (hash & (60)) == 60) && (hash & 1) == 0;
                     bool isLikelyAnimal = ___pawn.Faction == null;
 
+                    // Melee skip
+                    if (jobHashCode == Job_AttackMelee)
+                    {
+                        ___pawn.mindState.anyCloseHostilesRecently = true;
+                        return true;
+                    }
+
                     // Animals, ticks really slow
                     if (isLikelyAnimal) {
+
                         // Once every odd 500 ticks, search for a new job
                         if ((((hash & 540) == 540) && (hash & 1) == 0) && hash % 30 == 0)
                             return true;
@@ -225,7 +234,7 @@ namespace Rim73
                             }
 
                             return false;
-                        } else if (jobHashCode == Job_Wait || jobHashCode == Job_Wait_MaintainPosture || jobHashCode == Job_Goto || jobHashCode == Job_GotoWander)
+                        } else if (jobHashCode == Job_Wait_MaintainPosture || jobHashCode == Job_Goto || jobHashCode == Job_GotoWander)
                         {
                             // Wait and Wait_MaintainPosture
                             return false;
@@ -267,7 +276,7 @@ namespace Rim73
                             return true;
                         }
                     }
-                    
+
                     /*
                     if (curDriver != null)
                         AnalysisToil(ref curDriver);
@@ -277,7 +286,7 @@ namespace Rim73
                     */
 
                     // SKIP
-                    return false;
+                    return jobHashCode == Job_None ? true : false;
                 } else {
                     return true;
                 }
@@ -320,7 +329,8 @@ namespace Rim73
                         jobHashCode == Job_GiveSpeech ||
                         jobHashCode == Job_MarryAdjacentPawn ||
                         jobHashCode == Job_CutPlantDesignated ||
-                        jobHashCode == Job_Ingest
+                        jobHashCode == Job_Ingest ||
+                        jobHashCode == Job_AttackMelee
                     )
                     {
                         return true;
