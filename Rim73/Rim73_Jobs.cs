@@ -234,31 +234,33 @@ namespace Rim73
                             }
 
                             return false;
-                        } else if (jobHashCode == Job_Wait_MaintainPosture || jobHashCode == Job_Goto || jobHashCode == Job_GotoWander)
+                        } else if (jobHashCode == Job_Wait_MaintainPosture || jobHashCode == Job_GotoWander)
                         {
                             // Wait and Wait_MaintainPosture
                             return false;
 
+                        } else if (jobHashCode == Job_Goto) {
+                            return (___pawn.drafter != null && ___pawn.drafter.Drafted) ? true : false;
                         } else if (
-                            jobHashCode == Job_FinishFrame ||
-                            jobHashCode == Job_CutPlant ||
-                            jobHashCode == Job_Sow ||
-                            jobHashCode == Job_Harvest ||
-                            jobHashCode == Job_HarvestDesignated ||
-                            jobHashCode == Job_CutPlantDesignated ||
-                            jobHashCode == Job_Repair ||
-                            jobHashCode == Job_FixBrokenDownBuilding ||
-                            jobHashCode == Job_BuildRoof ||
-                            jobHashCode == Job_Deconstruct ||
-                            jobHashCode == Job_RemoveRoof ||
-                            jobHashCode == Job_DoBill ||
-                            jobHashCode == Job_SmoothFloor ||
-                            jobHashCode == Job_Mine ||
-                            jobHashCode == Job_RemoveFloor ||
-                            jobHashCode == Job_SmoothWall ||
-                            jobHashCode == Job_HaulToCell ||
-                            jobHashCode == Job_HaulToContainer
-                         ) {
+                         jobHashCode == Job_FinishFrame ||
+                         jobHashCode == Job_CutPlant ||
+                         jobHashCode == Job_Sow ||
+                         jobHashCode == Job_Harvest ||
+                         jobHashCode == Job_HarvestDesignated ||
+                         jobHashCode == Job_CutPlantDesignated ||
+                         jobHashCode == Job_Repair ||
+                         jobHashCode == Job_FixBrokenDownBuilding ||
+                         jobHashCode == Job_BuildRoof ||
+                         jobHashCode == Job_Deconstruct ||
+                         jobHashCode == Job_RemoveRoof ||
+                         jobHashCode == Job_DoBill ||
+                         jobHashCode == Job_SmoothFloor ||
+                         jobHashCode == Job_Mine ||
+                         jobHashCode == Job_RemoveFloor ||
+                         jobHashCode == Job_SmoothWall ||
+                         jobHashCode == Job_HaulToCell ||
+                         jobHashCode == Job_HaulToContainer
+                      ) {
                             // * NO SKIP JOBS *
                             // While doing these short jobs, pawns don't need to do any kind of checks
                             // We skip a lot of things.
