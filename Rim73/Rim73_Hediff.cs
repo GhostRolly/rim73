@@ -221,6 +221,8 @@ namespace Rim73
 
             // Used to get the first Infection available
             Hediff immunizable = null;
+            List<HediffGiverSetDef> hediffGiverSets = pawn.RaceProps.hediffGiverSets;
+            int sizeGiversSet = hediffGiverSets != null ? hediffGiverSets.Count : 0;
 
             for (int index = 0; index < hediffs.Count; index++)
             {
@@ -233,28 +235,27 @@ namespace Rim73
                 // They tick 5 times slower now...
                 //Log.Warning("=============");
                 //Log.Warning(pawn.ToString());
-                List<HediffGiverSetDef> hediffGiverSets = pawn.RaceProps.hediffGiverSets;
-                if (hediffGiverSets != null)
+                
+                for (int i = 0; i < sizeGiversSet; i++)
                 {
-                    int sizeGiversSet = hediffGiverSets.Count;
-                    for (int i = 0; i < sizeGiversSet; i++)
-                    {
-                        List<HediffGiver> hediffGivers = hediffGiverSets[i].hediffGivers;
-                        int sizeHediffGivers = hediffGivers.Count;
-                        for (int j = 0; j < sizeHediffGivers; j++)
-                        {
-                            if(hediffGivers[j].hediff.defName == hediff.def.defName)
-                            {
-                                float preSev = hediff.Severity;
-                                hediffGivers[j].OnIntervalPassed(pawn, (Hediff)null);
-                                
-                                if (pawn.Dead)
-                                    return;
+                    List<HediffGiver> hediffGivers = hediffGiverSets[i].hediffGivers;
+                    int sizeHediffGivers = hediffGivers.Count;
 
-                                float sevDiff = hediff.Severity - preSev;
-                                hediff.Severity += sevDiff * 3;
-                                //Log.Warning("> " + hediffGivers[j].hediff.defName + " -- from "+ preSev + " to " + hediff.Severity + " (diff: " + sevDiff +")");
-                            }
+                    for (int j = 0; j < sizeHediffGivers; j++)
+                    {
+                        if(hediffGivers[j].hediff.defName == hediff.def.defName)
+                        {
+                            float preSev = hediff.Severity;
+                            hediffGivers[j].OnIntervalPassed(pawn, (Hediff)null);
+                                
+                            if (pawn.Dead)
+                                return;
+
+                            float sevDiff = hediff.Severity - preSev;
+                            hediff.Severity += sevDiff * 3;
+
+                            // sevDiff * 3 because OnInterval is one (5-1 = 4) and the Return(true) will tick it aswell
+                            // so (4 - 1 = 3) 
                         }
                     }
                 }
@@ -268,8 +269,6 @@ namespace Rim73
                 {
                     immunizable = hediff;
                 }
-
-                Log.Warning("" + IsHediffType(ref hediffFlag, HediffCompProps.HediffCompProperties_Immunizable));
 
                 // OH BOY, LETS GO
                 if (
