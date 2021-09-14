@@ -46,7 +46,7 @@ namespace Rim73
     {
 
         public static Rim73_Settings Settings;
-        public static string Version = "1.3c";
+        public static string Version = "1.4";
         
         // Immunity
         public static MethodInfo ImmunityHandler;
@@ -73,6 +73,7 @@ namespace Rim73
 
         // Ticker
         public static int Ticks = 0;
+        public static int RealTicks = 0;
         
 
         public Rim73(ModContentPack content) : base(content)

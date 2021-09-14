@@ -54,7 +54,7 @@ namespace Rim73
                     //__result = Rim73.Ticks % 60000;
                     // Further simplification, every 65,000 ticks we reset the interactions
                     // Players doesn't see a difference but he will feel the ticking
-                    __result = (Rim73.Ticks & (65536 - 1));
+                    __result = Rim73.Ticks;
                     return false;
                 }
 
@@ -79,11 +79,16 @@ namespace Rim73
                     return false;
                 }
 
+                // If faction doesn't exist in cache, reload
+                // This is caused by beggars being a new faction.
+                if (!NearbyEnemiesDataCache.ContainsKey(pawn.Faction.loadID))
+                    InitCache();
+
                 // For the rest of the pawns... cached by faction Id
                 NearbyEnemiesCache enemiesCache = NearbyEnemiesDataCache[pawn.Faction.loadID];
 
                 // It's been 1000 ticks, let's skip
-                if (Rim73.Ticks > enemiesCache.lastTick)
+                if (Rim73.RealTicks > enemiesCache.lastTick)
                 {
                     regionsToScan = 200;
                     passDoors = true;
@@ -103,7 +108,7 @@ namespace Rim73
                 if (pawn.Faction != null && regionsToScan != 256 && Rim73_Settings.enemiesNearbyCache)
                 {
                     NearbyEnemiesCache enemiesCache = NearbyEnemiesDataCache[pawn.Faction.loadID];
-                    enemiesCache.lastTick = Rim73.Ticks + 200;
+                    enemiesCache.lastTick = Rim73.RealTicks + 200;
                     enemiesCache.enemiesNeaby = __result;
                     NearbyEnemiesDataCache[pawn.Faction.loadID] = enemiesCache;
                     //Log.Warning("Faction " + pawn.Faction.loadID + " has enemies nearby : " + __result + " with scan radius : " + regionsToScan);

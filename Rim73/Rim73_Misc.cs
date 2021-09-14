@@ -15,7 +15,7 @@ namespace Rim73
         // this also adds overhead in my code, which I don't want to do.
         // Calling IsHashIntervalTick() in Vanilla is a mess, takes too long to process!
         // So I'm doing it the easy way, thingIdNumber + ticks
-        
+
         [HarmonyPatch(typeof(Gen), "IsHashIntervalTick", new Type[] { typeof(Thing), typeof(int) })]
         static class GenPatch
         {
@@ -32,7 +32,9 @@ namespace Rim73
             static bool Prefix()
             {
                 // This never goes above 60000, which helps with Modulo performance
-                Rim73.Ticks = (Find.TickManager.TicksGame + 1) % 60000;
+                Rim73.RealTicks = Find.TickManager.TicksGame + 1;
+                Rim73.Ticks = Rim73.RealTicks % 60000;
+
                 return true;
             }
         }

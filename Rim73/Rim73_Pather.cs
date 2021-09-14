@@ -61,7 +61,7 @@ namespace Rim73
                 if (___pawn.mindState.anyCloseHostilesRecently && ___pawn.Faction != Faction.OfPlayer)
                 {
                     //int currTicks = Find.TickManager.TicksGame;
-                    int currTicks = Rim73.Ticks;
+                    int currTicks = Rim73.RealTicks;
                     
                     // Sleeping for 80 ticks, fail-safe for Pawns who are moving and/or are fleeing
                     if (___foundPathWhichCollidesWithPawns + 60 > currTicks && !__instance.MovedRecently(40) && ___pawn.mindState.mentalStateHandler.CurStateDef != MentalStateDefOf.PanicFlee)
@@ -140,7 +140,7 @@ namespace Rim73
                 int thingId = thing.thingIDNumber;
                 int? curRegion = map.regionGrid.GetValidRegionAt_NoRebuild(thing.Position)?.id;
 
-                if ((Rim73.Ticks & (65535 - 1)) == 0)
+                if ((Rim73.RealTicks & (65535 - 1)) == 0)
                 {
                     RegionCache.Clear();
                     return true;

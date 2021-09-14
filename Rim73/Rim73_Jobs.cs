@@ -164,7 +164,7 @@ namespace Rim73
                     int thingId = ___pawn.thingIDNumber;
                     int ticks = Rim73.Ticks;
                     int hash = thingId + ticks;
-                    bool isTickingHash = hash % 120 == 0;
+                    bool isTickingHash = (hash % 120 == 0);
                     bool isLikelyAnimal = ___pawn.Faction == null;
 
                     // Melee skip
@@ -229,10 +229,10 @@ namespace Rim73
                                 curDriver.DriverTick();
 
                                 if (___pawn.needs.comfort != null)
-                                    ___pawn.needs.comfort.lastComfortUseTick = ticks + 211;
+                                    ___pawn.needs.comfort.lastComfortUseTick = Rim73.RealTicks + 211;
 
                                 if (___pawn.needs.rest != null)
-                                    Need_Rest_lastRestTick.SetValue(___pawn.needs.rest, ticks + 211);
+                                    Need_Rest_lastRestTick.SetValue(___pawn.needs.rest, Rim73.RealTicks + 211);
                             }
 
                             return false;
