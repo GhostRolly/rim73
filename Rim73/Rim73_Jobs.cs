@@ -164,7 +164,7 @@ namespace Rim73
                     int thingId = ___pawn.thingIDNumber;
                     int ticks = Rim73.Ticks;
                     int hash = thingId + ticks;
-                    bool isTickingHash = ((hash & (30)) == 30 || (hash & (60)) == 60) && (hash & 1) == 0;
+                    bool isTickingHash = hash % 120 == 0;
                     bool isLikelyAnimal = ___pawn.Faction == null;
 
                     // Melee skip
@@ -189,7 +189,7 @@ namespace Rim73
                     }
 
                     // ThinkTree jobs
-                    if (isTickingHash && hash % 30 == 0 && jobHashCode != Job_LayDown && jobHashCode != Job_GotoWander && !isLikelyAnimal)
+                    if (isTickingHash && jobHashCode != Job_LayDown && jobHashCode != Job_GotoWander && !isLikelyAnimal)
                     {
                         return true;
                     }
