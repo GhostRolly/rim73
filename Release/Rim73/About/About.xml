@@ -1,16 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-	<name>Rim73</name>
+	<name>Rim73 - Performance and Optimisations</name>
 	<author>Ghost_Rolly</author>
 	<packageId>GhostRolly.Rim73</packageId>
 	<supportedVersions>
         <li>1.3</li>
     </supportedVersions>
 	<description>Improves the games performance by recoding some parts of the game. Load last.
-	
-	o Hediff optimisations : aggregates the ticking from (ABC, ABC, ABC) to (AAA, BBB, CCC) to improve performance take advantage of memory location.
-	o Pather optimisations : when in combat, will temporarly disable pawns when enemies are trying to path but blocked by another pawn.
-	o Jobs optimisations : same paradigm as Hediff optimisations, reduces the amount of unecessary tickings and job looking.
-	
 	</description>
 </ModMetaData>
