@@ -28,7 +28,7 @@ namespace Rim73
             public static void SmartSpeed_Postfix(ref TimeSpeed currTimeSpeed, ref float __result)
             {
                 if (__result == 15f && Rim73_Settings.warpSpeed)
-                    __result = 30f;
+                    __result = 20f;
             }
 
             public static bool DoCompatibility()

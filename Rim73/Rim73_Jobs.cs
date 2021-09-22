@@ -239,7 +239,7 @@ namespace Rim73
                         } else if (jobHashCode == Job_Wait_MaintainPosture || jobHashCode == Job_GotoWander)
                         {
                             // Wait and Wait_MaintainPosture
-                            return false;
+                            return isTickingHash;
                         } else if (jobHashCode == Job_Goto) {
                             return (___pawn.drafter != null && ___pawn.drafter.Drafted) ? true : false;
                         } else if (
